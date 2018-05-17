@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:task="http://www.springframework.org/schema/task"
+       xsi:schemaLocation="
+        http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-3.2.xsd
+        http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+        http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd
+        http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd
+        http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task-4.3.xsd ">
+    <!-- 自动扫描该包，使SpringMVC认为包下用了@controller注解的类是控制器 -->
+    <context:component-scan base-package="com.zj.controller" />
+    <mvc:annotation-driven />
+
+    <!-- 静态资源文件的处理-->
+    <mvc:default-servlet-handler />
+
+
+    <!-- 启用@Aspect注解 -->
+    <aop:aspectj-autoproxy />
+
+    <!-- 视图配置 -->
+    <bean id="freemarkerConfig"
+          class="org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer" >
+        <property name="templateLoaderPath" value="/WEB-INF/views/" />
+        <property name="defaultEncoding" value="UTF-8" />
+        <property name="freemarkerSettings">
+            <props>
+                <prop key="number_format">0.##########</prop> <!--解决数字问题-->
+                <prop key="boolean_format">true,false</prop> <!--解决页面布尔值的输出-->
+                <prop key="tag_syntax">square_bracket</prop> <!-- auto_detect:自动选择(选择第一种标签语法) angle_bracket(<#if>) square_bracket[#if]-->
+                <prop key="classic_compatible">true</prop> <!--非空不会报错-->
+                <prop key="template_update_delay">0</prop> <!--缓存时间-->
+                <prop key="default_encoding">UTF-8</prop>
+                <prop key="datetime_format">yyyy-MM-dd HH:mm:ss</prop>
+                <prop key="date_format">yyyy-MM-dd</prop>
+                <prop key="time_format">HH:mm:ss</prop>
+            </props>
+        </property>
+        <property name="freemarkerVariables">
+            <map>
+                <entry key="student_list" value-ref="studentDirective" />
+            </map>
+        </property>
+    </bean>
+
+    <!-- 视图解析器 -->
+    <bean class="org.springframework.web.servlet.view.freemarker.FreeMarkerViewResolver">
+        <property name="prefix" value="" />
+        <property name="suffix" value=".ftl" />
+        <property name="contentType" value="text/html;charset=UTF-8"/>
+    </bean>
+
+    <!-- 文本转化 -->
+    <mvc:annotation-driven>
+        <mvc:message-converters>
+            <bean class="org.springframework.http.converter.StringHttpMessageConverter"/>
+            <bean class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter"/>
+        </mvc:message-converters>
+    </mvc:annotation-driven>
+
+
+</beans>
