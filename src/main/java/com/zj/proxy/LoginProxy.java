@@ -28,6 +28,7 @@ public class LoginProxy {
     @Before(value="pointcut()")
     public void beforeMethod(JoinPoint joinPoint){
         User user = (User) session.getAttribute("user");
+        System.out.println("-------进行登录验证-------");
         if(user == null){
             throw new LoginException("请先登录");
         }

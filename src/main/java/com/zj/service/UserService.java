@@ -22,7 +22,6 @@ public class UserService{
 
     public User login(User user,String id) {
         log.info("用户登录："+user);
-        User u = userDao.login(user);
         return userDao.login(user);
     }
 }

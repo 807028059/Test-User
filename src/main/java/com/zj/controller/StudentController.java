@@ -20,13 +20,13 @@ import java.util.List;
 
 @Controller
 @RequestMapping("student")
-@IsLogin
 public class StudentController extends BaseController{
     @Autowired
     private StudentService studentService;
 
     @RequestMapping("add")
     @ResponseBody
+    @IsLogin
     public ResultInfo addStudent(HttpServletRequest request,Student student){
         HttpSession session = request.getSession();
         User user = (User)session.getAttribute("user");
@@ -35,11 +35,14 @@ public class StudentController extends BaseController{
     }
 
     @RequestMapping("addView")
+    @IsLogin
     public String addView(){
         return "addView";
     }
 
+
     @RequestMapping("main")
+    @IsLogin
     public String findListStudent(Student student, Model model){
         PageList<Student> students = studentService.findStudent(student);
         model.addAttribute("students",students);
@@ -56,7 +59,7 @@ public class StudentController extends BaseController{
     }
 
     @RequestMapping("updateView/{id}")
-    //@IsLogin
+    @IsLogin
     public String updateView(@PathVariable Integer id,@PathVariable Integer uid,Model model){
         Student student = studentService.findStudentById(id,uid);
         model.addAttribute("student",student);
