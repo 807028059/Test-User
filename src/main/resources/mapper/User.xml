@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zj.dao.UserDao" >
+
+    <resultMap id="User" type="com.zj.model.User" >
+        <id column="userId" property="userId" jdbcType="INTEGER"/>
+        <result column="userName" property="userName" jdbcType="VARCHAR" />
+        <result column="userPassword" property="userPassword" jdbcType="VARCHAR" />
+        <result column="uid" property="uid" jdbcType="INTEGER"/>
+    </resultMap>
+
+    <sql id="Base_Column_List" >
+        userId, userName, userPassword, uid
+    </sql>
+
+
+    <select  resultMap="User"  id="test">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM usertable
+    </select>
+
+</mapper>
