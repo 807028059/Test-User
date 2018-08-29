@@ -15,8 +15,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-import java.util.LinkedList;
-import java.util.List;
 
 @Controller
 @RequestMapping("student")
@@ -24,6 +22,9 @@ public class StudentController extends BaseController{
     @Autowired
     private StudentService studentService;
 
+    /*
+    * 添加操作
+    * */
     @RequestMapping("add")
     @ResponseBody
     @IsLogin
@@ -34,6 +35,9 @@ public class StudentController extends BaseController{
         return studentService.addStudent(uid,student);
     }
 
+    /*
+    * 跳转添加视图
+    * */
     @RequestMapping("addView")
     @IsLogin
     public String addView(){
@@ -41,6 +45,9 @@ public class StudentController extends BaseController{
     }
 
 
+    /*
+    * 跳转主页
+    * */
     @RequestMapping("main")
     @IsLogin
     public String findListStudent(Student student, Model model){
@@ -51,6 +58,9 @@ public class StudentController extends BaseController{
         return "main";
     }
 
+    /*
+    * 删除操作
+    * */
     @RequestMapping("delete/{id}")
     @IsLogin
     public String deleteStudent(@PathVariable Integer id,@PathVariable Integer uid){
@@ -58,25 +68,33 @@ public class StudentController extends BaseController{
         return "redirect:/student/main";
     }
 
+    /*
+    * 跳转编辑页面
+    * */
     @RequestMapping("updateView/{id}")
     @IsLogin
-    public String updateView(@PathVariable Integer id,@PathVariable Integer uid,Model model){
-        Student student = studentService.findStudentById(id,uid);
+    public String updateView(@PathVariable Integer id,Model model,HttpSession session){
+        User user = (User) session.getAttribute("user");
+        Student student = studentService.findStudentById(id,user.getUid());
         model.addAttribute("student",student);
         return "update";
     }
 
+
+    /*
+    * 编辑操作
+    * */
     @RequestMapping("update")
     @ResponseBody
     public ResultInfo updateStudent(Student student, HttpServletRequest request, HttpSession session){
         User user = (User) session.getAttribute("user");
-        if(user == null){
+        /*if(user == null){
             ResultInfo resultInfo = new ResultInfo();
             resultInfo.setCode(300);
             resultInfo.setMes("请先登录");
             return resultInfo;
-        }
-        return  studentService.updateStudent(student);
+        }*/
+        return  studentService.updateStudent(student,user.getUid());
     }
 
 }

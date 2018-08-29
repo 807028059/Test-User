@@ -18,10 +18,6 @@ public class StudentService {
     private StudentDao studentDao;
     private static Logger log = Logger.getLogger(StudentService.class);
 
-    public List<Student> findAll(){
-        return studentDao.findAll();
-    }
-
     public ResultInfo addStudent(Integer uid,Student student){
         ResultInfo resultInfo = new ResultInfo();
         log.info("addStudent入参："+resultInfo);
@@ -37,9 +33,11 @@ public class StudentService {
         return resultInfo;
     }
 
-    public ResultInfo updateStudent(Student student){
+    public ResultInfo updateStudent(Student student,Integer uid){
         ResultInfo resultInfo = new ResultInfo();
+        log.info("updateStudent入参："+student.toString());
         if(student!=null){
+            student.setUid(uid);
             studentDao.updateStudent(student);
             resultInfo.setCode(200);
             resultInfo.setMes("添加成功");
@@ -47,7 +45,6 @@ public class StudentService {
         }
         resultInfo.setCode(300);
         resultInfo.setMes("添加失败");
-        log.info("updateStudent入参："+resultInfo);
         return resultInfo;
     }
 

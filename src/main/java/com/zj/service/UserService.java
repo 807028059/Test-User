@@ -1,16 +1,11 @@
 package com.zj.service;
 
-import com.alibaba.fastjson.JSONObject;
 import com.zj.dao.UserDao;
 import com.zj.model.User;
-import com.zj.result.ResultInfo;
 import com.zj.util.RedisUtil;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import redis.clients.jedis.Jedis;
-
-import java.util.List;
 
 @Service
 public class UserService{

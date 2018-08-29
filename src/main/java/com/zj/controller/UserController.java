@@ -25,6 +25,9 @@ public class UserController extends BaseController{
     @Autowired
     private UserService userService;
 
+    /*
+    * 登录操作
+    * */
     @RequestMapping("login")
     @ResponseBody
     public ResultInfo login(User user, HttpServletRequest request, HttpSession session){
@@ -44,6 +47,9 @@ public class UserController extends BaseController{
         return resultInfo;
     }
 
+    /*
+    * 跳转主页
+    * */
     @RequestMapping("index")
     public String index(HttpServletRequest request, HttpSession session){
         User user = (User)session.getAttribute("user");
@@ -53,12 +59,18 @@ public class UserController extends BaseController{
         return "login";
     }
 
+    /*
+    * 登出操作
+    * */
     @RequestMapping("out")
     public String out(HttpSession session){
         session.removeAttribute("user");
         return "login";
     }
 
+    /*
+    * 生成验证码
+    * */
     @RequestMapping("yzm")
     public void sendYzm(HttpServletRequest request, HttpServletResponse response) throws IOException {
         // 图片高度
@@ -93,6 +105,9 @@ public class UserController extends BaseController{
         ImageIO.write(bi, "JPG", response.getOutputStream());
     }
 
+    /*
+    * 验证码校验
+    * */
     @RequestMapping("check")
     @ResponseBody
     public ResultInfo checkYzm(HttpServletRequest request, HttpServletResponse response){
