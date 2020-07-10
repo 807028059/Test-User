@@ -1,4 +1,6 @@
-# Test-User
+#Test-User
+适合新手 刚入行同学学习
+
 SSM框架  简单实现 登录  以及CRUD功能
 
 #表创建
